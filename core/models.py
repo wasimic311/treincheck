@@ -14,5 +14,5 @@ class RawResponse(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     status_code: Mapped[int]
-    payload: Mapped[dict] = mapped_column(JSONB)
+    payload: Mapped[list] = mapped_column(JSONB)
 
