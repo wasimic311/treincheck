@@ -10,11 +10,18 @@ NS_DISRUPTIONS_URL = "https://gateway.apiportal.ns.nl/disruptions/v3"
 
 engine = create_engine(settings.database_url)
 
-resp = httpx.get(NS_DISRUPTIONS_URL, headers={"Ocp-Apim-Subscription-Key": settings.ns_api_key})
 
+def poll_once() -> None:
+      resp = httpx.get(
+          NS_DISRUPTIONS_URL,
+          headers={"Ocp-Apim-Subscription-Key": settings.ns_api_key},
+          timeout=10.0,
+      )
+      try:
+          payload = resp.json()
+      except ValueError:
+          payload = None
 
-print(resp.status_code, len(resp.json()))
-
-# with Session(engine) as session:
-#     session.add(RawResponse(status_code=resp.status_code, payload=resp.json()))
-#     session.commit()
+      with Session(engine) as session:
+          session.add(RawResponse(status_code=resp.status_code, payload=payload))
+          session.commit()
