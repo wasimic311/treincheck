@@ -75,7 +75,7 @@ An NS API key is free via the [NS API portal](https://apiportal.ns.nl).
 ## Roadmap
 
 - [x] Repo, Dockerized Postgres, NS API access
-- [ ] Raw response storage + poll loop
+- [x] Raw response storage + poll loop
 - [ ] Case engine (open → resolving → resolved)
 - [ ] Poll-cycle logging + gap/failure tracking
 - [ ] FastAPI read endpoints
