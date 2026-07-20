@@ -9,6 +9,12 @@ services:
         - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+  worker:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - db
+    env_file:
+      - .env
 volumes:
   pgdata:
