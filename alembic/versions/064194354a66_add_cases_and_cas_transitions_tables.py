@@ -59,4 +59,5 @@ def downgrade() -> None:
     op.drop_table('case_transitions')
     op.drop_index(op.f('ix_cases_ns_id'), table_name='cases')
     op.drop_table('cases')
+    sa.Enum(name='casestatus').drop(op.get_bind())
     # ### end Alembic commands ###
