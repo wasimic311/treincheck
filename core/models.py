@@ -1,15 +1,21 @@
+import enum
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.dialects.postgresql import JSONB
 from datetime import datetime
-from sqlalchemy import DateTime, func
+from sqlalchemy import DateTime, Enum, func
 from sqlalchemy.orm import relationship
 from typing import List
 from sqlalchemy import ForeignKey
 
 class Base(DeclarativeBase):
     pass
+
+class CaseStatus(str, enum.Enum):
+    OPEN = "open"
+    RESOLVING = "resolving"
+    RESOLVED = "resolved"
 
 class RawResponse(Base):
     __tablename__ ="raw_responses"
@@ -27,7 +33,7 @@ class Case(Base):
     ns_type: Mapped[str]
     title: Mapped[str | None]
 
-    status: Mapped[str]
+    status: Mapped[CaseStatus] = mapped_column(Enum(CaseStatus))
     resolving_since: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     first_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
