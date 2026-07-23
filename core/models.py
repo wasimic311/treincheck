@@ -24,6 +24,7 @@ class RawResponse(Base):
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     status_code: Mapped[int]
     payload: Mapped[list | None] = mapped_column(JSONB)
+    processed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True)) 
 
 class Case(Base):
     __tablename__ = "cases"
